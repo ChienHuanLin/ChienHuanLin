@@ -60,6 +60,24 @@ function processLogin(event) {
   let usernameEntered = document.getElementById("username").value;
   let passwordEntered = document.getElementById("password").value;
 
+  let usernameError = document.getElementById('username-error');
+  if (usernameError) {
+    usernameError.remove();
+  }
+
+  let isValid = true;
+  if (/[^a-zA-Z0-9]/.test(usernameEntered)) {
+    usernameError = document.createElement('h6');
+    usernameError.id = 'username-error';
+    usernameError.textContent = "Username can only contain ordinary letters and numbers.";
+    usernameError.style.color = 'red';
+    document.getElementById('username').insertAdjacentElement('afterend', usernameError);
+    isValid = false;
+  }
+
+  if (!isValid) {
+    return;
+  }
   //alert("login simulation");
   // Retrieving data from localStorage
   const registeredUsers = localStorage.getItem("RegisteredUsers");
