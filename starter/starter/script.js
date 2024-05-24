@@ -14,7 +14,45 @@ function processRegistration(event) {
   let password = document.getElementById("password").value;
   //console.log(username);
 
+  //localStorage.setItem("RegisteredUsers", username + ":" + password + ";");
+  const usernameError = document.createElement('h6');
+  const passwordError = document.createElement('h6');
+  const form = document.querySelector('form');
+
+  if (document.getElementById('username-error')) {
+    document.getElementById('username-error').remove();
+  }
+  if (document.getElementById('password-error')) {
+    document.getElementById('password-error').remove();
+  }
+
+  let isValid = true;
+
+  // check for the username and the alert
+  if (/[^a-zA-Z0-9]/.test(username)) {
+    usernameError.textContent = "Username can only contain ordinary letters and numbers.";
+    usernameError.id = 'username-error';
+    usernameError.style.color = 'red';
+    form.querySelector('.input-group').appendChild(usernameError);
+    isValid = false;
+  }
+
+  // check for the password and the alert
+  if (/[^a-zA-Z0-9]/.test(password) || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+    passwordError.textContent = "Password must contain uppercase and lowercase letters and numbers, and no special symbols.";
+    passwordError.id = 'password-error';
+    passwordError.style.color = 'red';
+    form.querySelectorAll('.input-group')[1].appendChild(passwordError);
+    isValid = false;
+  }
+
+  if (!isValid) {
+    return;
+  }
+
+  
   localStorage.setItem("RegisteredUsers", username + ":" + password + ";");
+  alert('Registration successful');
 }
 
 function processLogin(event) {
